@@ -1,14 +1,13 @@
 package main
 
 import (
+	"Jumia_todoList/api/handler"
 	env "Jumia_todoList/config/environment"
-	"fmt"
-	"time"
+	"log"
+	"net/http"
 )
 
 func main() {
-	for {
-		time.Sleep(time.Second)
-		fmt.Println("running...", env.ServerEnv.Port)
-	}
+	handler.Handler.Serve()
+	log.Fatal(http.ListenAndServe(env.ServerEnv.Port, handler.Handler.Router))
 }

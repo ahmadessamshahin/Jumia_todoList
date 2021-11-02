@@ -3,11 +3,6 @@ package env
 import (
 	"fmt"
 	"github.com/spf13/viper"
-	"sync"
-)
-
-var (
-	once sync.Once
 )
 
 type Environment interface {
@@ -17,12 +12,10 @@ type Environment interface {
 }
 
 func init() {
-	fmt.Println("START LOADING CONFIG")
-	once.Do(func() {
-		config()
-		load([]Environment{&server{}, &database{}})
-	})
-	fmt.Println("FINISH LOADING CONFIG")
+	fmt.Println("START LOADING CONFIG ....")
+	config()
+	load([]Environment{&server{}, &database{}})
+	fmt.Println("FINISH LOADING CONFIG 🚀🚀")
 }
 
 func config() {
