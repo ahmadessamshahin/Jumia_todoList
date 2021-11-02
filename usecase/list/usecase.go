@@ -8,9 +8,9 @@ import (
 //Interfaces to what is exposing to the outer package
 
 type ListingUseCase interface {
-	Create() *entity.List
-	Update(model.ListUpdateInput) *entity.List
-	Delete(string) error
-	Get(string) *entity.List
-	GetAllLists(model.GetAllListInput) []entity.List
+	Create(model.ListCreateInput) error
+	Update(model.ListUpdateInput) error
+	Delete(model.ListRemoveInput) error
+	Get(int) (*entity.List, error)
+	GetAllLists(model.GetAllListInput) ([]entity.List, error)
 }

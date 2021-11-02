@@ -1,6 +1,8 @@
 package tag
 
 import (
+	"Jumia_todoList/api/helper"
+	"Jumia_todoList/api/model"
 	"Jumia_todoList/usecase/tag"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -15,28 +17,47 @@ func (h *GinHandler) Routes(router *gin.Engine, useCase interface{}) {
 
 	tagRouter := router.Group("/tag")
 	{
-		tagRouter.GET("/", h.get)
 		tagRouter.POST("/", h.add)
 		tagRouter.DELETE("/", h.remove)
 	}
 }
 
 func (h *GinHandler) add(c *gin.Context) {
-	fmt.Println("in")
+	var l model.TagCreateInput
+	err := helper.Unmarshal(c, &l)
 
-	c.JSON(201, nil)
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
 
+	err = h.UseCase.Create(l)
+
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
+
+	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("Tags created successfully")}
+	c.JSON(204, res)
 }
 
 func (h *GinHandler) remove(c *gin.Context) {
-	fmt.Println("in")
+	var l model.TagRemoveInput
+	err := helper.Unmarshal(c, &l)
 
-	c.JSON(201, nil)
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
 
-}
+	err = h.UseCase.Delete(l)
 
-func (h *GinHandler) get(c *gin.Context) {
-	fmt.Println("in")
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
 
-	c.JSON(201, nil)
+	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("Tags created successfully")}
+	c.JSON(204, res)
 }

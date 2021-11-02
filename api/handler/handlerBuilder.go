@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 )
@@ -32,11 +31,7 @@ func (s *DefaultHandler) Use(gp RoutingGroup, useCase interface{}) *DefaultHandl
 }
 
 func (s DefaultHandler) Serve() {
-	defer func() {
-		if r := recover(); r != nil {
-			fmt.Println("Recovered in f", r)
-		}
-	}()
+	
 	for _, m := range s.Matcher {
 		m.RoutingGroups.Routes(s.Router, m.UseCases)
 	}

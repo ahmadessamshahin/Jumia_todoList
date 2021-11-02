@@ -20,10 +20,6 @@ func (l *TaggingInstance) Create() *entity.Tag {
 	return nil
 }
 
-func (l *TaggingInstance) Update() *entity.Tag {
-	return nil
-}
-
 func (l *TaggingInstance) Delete() error {
 	return nil
 }

@@ -7,7 +7,7 @@ import (
 
 type Record struct {
 	gorm.Model
-	ID          string    `gorm:"primary_key" json:"id"`
+	ID          int64     `gorm:"primary_key;auto_increment;not_null;" json:"id"`
 	Title       string    `gorm:"type:varchar(40)" json:"title"`
 	Description string    `gorm:"type:varchar(40)" json:"description"`
 	Due         time.Time `gorm:"type:date" json:"due"`

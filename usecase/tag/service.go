@@ -2,7 +2,6 @@ package tag
 
 import (
 	"Jumia_todoList/api/model"
-	"Jumia_todoList/entity"
 	"github.com/rs/zerolog"
 )
 
@@ -18,6 +17,5 @@ func (l *TaggingService) Load(repository interface{}, logger *zerolog.Logger) {
 	l.Logger = logger
 }
 
-func (l *TaggingService) Create(model.TagCreateInput) *entity.Tag { return nil }
-func (l *TaggingService) Update(model.TagUpdateInput) *entity.Tag { return nil }
-func (l *TaggingService) Delete(model.TagDeleteInput) error       { return nil }
+func (l *TaggingService) Create(model.TagCreateInput) error { return nil }
+func (l *TaggingService) Delete(model.TagRemoveInput) error { return nil }

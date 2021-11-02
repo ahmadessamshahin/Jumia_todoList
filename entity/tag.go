@@ -6,7 +6,7 @@ import (
 
 type Tag struct {
 	gorm.Model
-	Id          string `gorm:"primary_key" json:"id"`
+	Id          int64  `gorm:"primary_key;auto_increment;not_null;" json:"id"`
 	Name        string `gorm:"type:varchar(40)" json:"name"`
 	RecordRefer uint
 }

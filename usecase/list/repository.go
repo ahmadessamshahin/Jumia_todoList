@@ -6,9 +6,9 @@ import (
 )
 
 type ListingRepository interface {
-	Create() *entity.List
-	Update() *entity.List
-	Delete(string) error
-	Get(string) *entity.List
+	Create(*entity.List) error
+	Update(*entity.List, int) error
+	Delete(int) error
+	Get(int) (*entity.List, error)
 	GetAllLists(model.GetAllListInput) []entity.List
 }

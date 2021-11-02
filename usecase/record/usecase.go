@@ -6,7 +6,8 @@ import (
 )
 
 type RecordingUseCase interface {
-	Create(model.RecordCreateInput) *entity.Record
-	Update(model.RecordUpdateInput) *entity.Record
-	Delete(model.RecordDeleteInput) error
+	Create(model.RecordCreateInput) error
+	Update(model.RecordUpdateInput) error
+	Delete(model.RecordRemoveInput) error
+	Filter(input model.RecordFilterInput) ([]entity.Record, error)
 }

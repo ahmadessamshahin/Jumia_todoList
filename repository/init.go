@@ -3,6 +3,7 @@ package repo
 import (
 	"Jumia_todoList/config/database"
 	"Jumia_todoList/config/logging"
+	"Jumia_todoList/entity"
 	"Jumia_todoList/usecase/list"
 	"Jumia_todoList/usecase/record"
 	"Jumia_todoList/usecase/tag"
@@ -30,5 +31,12 @@ func init() {
 		Use(record.RecordingName, &recordingRepo.RecordingInstance{}).
 		Use(tag.TaggingName, &taggingRepo.TaggingInstance{})
 
+	fmt.Println("MIGRATING ....")
+
+	database.Migrate(RepositoryBuilder.ORM, &entity.List{}, &entity.Record{}, &entity.Tag{})
+
+	fmt.Println("FINISH MIGRATING ....")
+
 	fmt.Println("FINISH Loading Repository 🚀🚀🚀")
+
 }

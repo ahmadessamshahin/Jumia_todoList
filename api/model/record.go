@@ -12,34 +12,35 @@ type RecordOutput struct {
 }
 
 type RecordCreateInput struct {
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Due         time.Time `json:"due"`
-	Completed   bool      `json:"Completed"`
-}
-
-type RecordCreateOutput struct {
-	Message    string       `json:"message"`
-	StatusCode int          `json:"code"`
-	Data       RecordOutput `json:"data"`
+	ListID      string `json:"list_id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Due         string `json:"due"`
+	Completed   bool   `json:"completed"`
 }
 
 type RecordUpdateInput struct {
-	Title       string    `json:"title"`
-	Description string    `json:"description"`
-	Due         time.Time `json:"due"`
-	Completed   bool      `json:"Completed"`
+	ListID      string `json:"list_id"`
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Due         string `json:"due"`
+	Completed   bool   `json:"completed"`
 }
 
 type RecordUpdateOutput struct {
-	Message    string     `json:"message"`
-	StatusCode int        `json:"code"`
-	Data       ListOutput `json:"data"`
+	Message string     `json:"message"`
+	Data    ListOutput `json:"data"`
 }
 
-type RecordDeleteInput int
+type RecordRemoveInput struct {
+	ID string `json:"id"`
+}
 
-type RecordDeleteOutput struct {
-	Message    string `json:"message"`
-	StatusCode int    `json:"code"`
+type RecordFilterInput struct {
+	ListId string   `json:"list_id"`
+	Tags   []string `json:"tags"`
+}
+
+type RecordFilterOutput struct {
+	Data []RecordOutput `json:"data"`
 }

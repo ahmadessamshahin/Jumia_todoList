@@ -18,6 +18,9 @@ func (l *RecordingService) Load(repository interface{}, logger *zerolog.Logger) 
 	l.Logger = logger
 }
 
-func (l *RecordingService) Create(model.RecordCreateInput) *entity.Record { return nil }
-func (l *RecordingService) Update(model.RecordUpdateInput) *entity.Record { return nil }
-func (l *RecordingService) Delete(model.RecordDeleteInput) error          { return nil }
+func (l *RecordingService) Create(model.RecordCreateInput) error { return nil }
+func (l *RecordingService) Update(model.RecordUpdateInput) error { return nil }
+func (l *RecordingService) Delete(model.RecordRemoveInput) error { return nil }
+func (l *RecordingService) Filter(model.RecordFilterInput) ([]entity.Record, error) {
+	return nil, nil
+}

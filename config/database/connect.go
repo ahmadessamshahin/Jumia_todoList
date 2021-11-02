@@ -21,3 +21,9 @@ func Connect() *gorm.DB {
 	}
 	return db
 }
+
+func Migrate(orm *gorm.DB, entities ...interface{}) {
+	for _, entity := range entities {
+		orm.Migrator().AutoMigrate(&entity)
+	}
+}
