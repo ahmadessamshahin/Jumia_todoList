@@ -1,53 +1,43 @@
 package list
 
 import (
-	"Jumia_todoList/api/model"
 	"Jumia_todoList/entity"
+	"fmt"
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
 )
 
-type ListingInstance struct {
+type Instance struct {
 	Logger *zerolog.Logger
 	ORM    *gorm.DB
 }
 
-func (l *ListingInstance) Load(logger *zerolog.Logger, orm *gorm.DB) {
+func (l *Instance) Load(logger *zerolog.Logger, orm *gorm.DB) {
 	l.ORM = orm
 	l.Logger = logger
 }
 
-func (l *ListingInstance) Create(i *entity.List) error {
+func (l *Instance) Create(i *entity.List) error {
 	return l.ORM.Create(i).Error
 }
 
-func (l *ListingInstance) Update(i *entity.List, id int) error {
+func (l *Instance) Update(i *entity.List, id int) error {
 	return l.ORM.Model(&entity.List{}).Where("id=?", id).Updates(i).Error
 }
 
-func (l *ListingInstance) Delete(id int) error {
-	return l.ORM.Delete(&entity.List{}, id).Error
-
+func (l *Instance) Delete(id int) error {
+	return l.ORM.Unscoped().Delete(&entity.List{}, id).Error
 }
 
-func (l *ListingInstance) Get(id int) (*entity.List, error) {
+func (l *Instance) Get(id int) (*entity.List, error) {
 	list := &entity.List{}
-	err := l.ORM.Find(list, id).Error
-
-	if err != nil {
-		return nil, err
-	}
-
-	records := entity.Record{}
-	err = l.ORM.Model(list).Where("id = ?", id).Association("Records").Find(&records)
-
-	if err != nil {
-		return nil, err
-	}
-
-	return list, err
+	l.ORM.Preload("tags").Preload("tasks").Find(list, id)
+	fmt.Printf("toto %#v\n", list)
+	return list, nil
 }
 
-func (l *ListingInstance) GetAllLists(model.GetAllListInput) []entity.List {
-	return nil
+func (l *Instance) GetAllLists(limit, offset int) (lists []entity.List, err error) {
+	err = l.ORM.Limit(limit).Offset(offset).
+		Find(&lists).Error
+	return
 }

@@ -4,7 +4,7 @@ import (
 	"Jumia_todoList/api/model"
 )
 
-type TaggingUseCase interface {
+type UseCase interface {
 	Create(model.TagCreateInput) error
-	Delete(output model.TagRemoveInput) error
+	Delete(model.TagRemoveInput) error
 }

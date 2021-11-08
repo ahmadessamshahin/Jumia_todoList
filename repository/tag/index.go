@@ -6,20 +6,20 @@ import (
 	"gorm.io/gorm"
 )
 
-type TaggingInstance struct {
+type Instance struct {
 	Logger *zerolog.Logger
 	ORM    *gorm.DB
 }
 
-func (l *TaggingInstance) Load(logger *zerolog.Logger, orm *gorm.DB) {
+func (l *Instance) Load(logger *zerolog.Logger, orm *gorm.DB) {
 	l.ORM = orm
 	l.Logger = logger
 }
 
-func (l *TaggingInstance) Create() *entity.Tag {
-	return nil
+func (l *Instance) Create(i *entity.Tag) error {
+	return l.ORM.Create(i).Error
 }
 
-func (l *TaggingInstance) Delete() error {
-	return nil
+func (l *Instance) Delete(id int) error {
+	return l.ORM.Unscoped().Delete(&entity.List{}, id).Error
 }

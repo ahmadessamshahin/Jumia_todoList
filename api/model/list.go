@@ -1,18 +1,14 @@
 package model
 
-type ListOutput struct {
-	ID      string         `json:"id"`
-	Name    string         `json:"name"`
-	Records []RecordOutput `json:"records"`
-}
+import "Jumia_todoList/entity"
 
 type ListCreateInput struct {
 	Name string `json:"name"`
 }
 
 type ListCreateOutput struct {
-	Message string     `json:"message"`
-	Data    ListOutput `json:"data"`
+	Message string      `json:"message"`
+	Data    entity.List `json:"data"`
 }
 
 type ListUpdateInput struct {
@@ -21,8 +17,8 @@ type ListUpdateInput struct {
 }
 
 type ListUpdateOutput struct {
-	Message string     `json:"message"`
-	Data    ListOutput `json:"data"`
+	Message string      `json:"message"`
+	Data    entity.List `json:"data"`
 }
 
 type ListRemoveInput struct {
@@ -30,7 +26,7 @@ type ListRemoveInput struct {
 }
 
 type GETListOutput struct {
-	Data ListOutput `json:"data"`
+	Data []entity.Task `json:"data"`
 }
 
 type GetAllListInput struct {
@@ -39,6 +35,6 @@ type GetAllListInput struct {
 }
 
 type GetAllListOutput struct {
-	Message string       `json:"message"`
-	Data    []ListOutput `json:"data"`
+	Message string        `json:"message"`
+	Data    []entity.List `json:"data"`
 }
