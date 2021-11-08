@@ -6,6 +6,7 @@ import (
 	"Jumia_todoList/usecase/task"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 	"strconv"
 )
 
@@ -102,8 +103,16 @@ func (h *GinHandler) filter(c *gin.Context) {
 		helper.ErrHandler(err, c)
 		return
 	}
+	var o []model.TaskOutput
 
-	res := model.TaskFilterOutput{Data: tasks}
+	err = copier.Copy(&o, &tasks)
+
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
+
+	res := model.TaskFilterOutput{Data: o}
 	c.JSON(200, res)
 
 }
@@ -124,6 +133,13 @@ func (h *GinHandler) get(c *gin.Context) {
 
 	tasks := h.UseCase.Get(i)
 
-	res := model.GETListOutput{Data: tasks}
+	var o []model.TaskOutput
+	err = copier.Copy(&o, &tasks)
+
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
+	res := model.GetListTask{Data: o}
 	c.JSON(200, res)
 }

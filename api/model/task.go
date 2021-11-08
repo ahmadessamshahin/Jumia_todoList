@@ -1,8 +1,15 @@
 package model
 
-import (
-	"Jumia_todoList/entity"
-)
+import "time"
+
+type TaskOutput struct {
+	ID          int         `json:"id"`
+	Title       string      `json:"title"`
+	Description string      `json:"description"`
+	Due         time.Time   `json:"due"`
+	Completed   bool        `json:"Completed"`
+	Tags        []TagOutput `json:"tags"`
+}
 
 type TaskCreateInput struct {
 	ListID      uint     `json:"list_id"`
@@ -22,6 +29,11 @@ type TaskUpdateInput struct {
 	Completed   bool   `json:"completed"`
 }
 
+type TaskUpdateOutput struct {
+	Message string     `json:"message"`
+	Data    ListOutput `json:"data"`
+}
+
 type TaskRemoveInput struct {
 	ID int `json:"id"`
 }
@@ -32,7 +44,7 @@ type TaskFilterInput struct {
 }
 
 type TaskFilterOutput struct {
-	Data []entity.Task `json:"data"`
+	Data []TaskOutput `json:"data"`
 }
 
 type TaskFilterAllInput struct {
@@ -40,9 +52,9 @@ type TaskFilterAllInput struct {
 }
 
 type TaskFilterAllOutput struct {
-	Data []entity.Task `json:"data"`
+	Data []TaskOutput `json:"data"`
 }
 
 type GetListTask struct {
-	Data []entity.Task `json:"data"`
+	Data []TaskOutput `json:"data"`
 }
