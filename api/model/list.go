@@ -1,14 +1,17 @@
 package model
 
-import "Jumia_todoList/entity"
+type ListOutput struct {
+	ID   int    `json:"id" copier:"must"`
+	Name string `json:"name" copier:"must"`
+}
 
 type ListCreateInput struct {
 	Name string `json:"name"`
 }
 
 type ListCreateOutput struct {
-	Message string      `json:"message"`
-	Data    entity.List `json:"data"`
+	Message string     `json:"message"`
+	Data    ListOutput `json:"data"`
 }
 
 type ListUpdateInput struct {
@@ -17,8 +20,8 @@ type ListUpdateInput struct {
 }
 
 type ListUpdateOutput struct {
-	Message string      `json:"message"`
-	Data    entity.List `json:"data"`
+	Message string     `json:"message"`
+	Data    ListOutput `json:"data"`
 }
 
 type ListRemoveInput struct {
@@ -26,7 +29,7 @@ type ListRemoveInput struct {
 }
 
 type GETListOutput struct {
-	Data []entity.Task `json:"data"`
+	Data ListOutput `json:"data"`
 }
 
 type GetAllListInput struct {
@@ -35,6 +38,6 @@ type GetAllListInput struct {
 }
 
 type GetAllListOutput struct {
-	Message string        `json:"message"`
-	Data    []entity.List `json:"data"`
+	Message string       `json:"message"`
+	Data    []ListOutput `json:"data"`
 }

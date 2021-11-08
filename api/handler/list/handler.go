@@ -6,6 +6,7 @@ import (
 	"Jumia_todoList/usecase/list"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/jinzhu/copier"
 )
 
 type GinHandler struct {
@@ -92,10 +93,17 @@ func (h *GinHandler) getAllList(c *gin.Context) {
 	}
 
 	lists := h.UseCase.GetAllLists(*i)
-	fmt.Println(lists)
+
+	var o []model.ListOutput
+	err := copier.Copy(&o, &lists)
+
+	if err != nil {
+		helper.ErrHandler(err, c)
+		return
+	}
 
 	res := model.GetAllListOutput{Message: fmt.Sprintf("All list limit: %d, Offset: %d", i.Limit, i.Offset),
-		Data: lists}
+		Data: o}
 
 	c.JSON(201, res)
 }
