@@ -9,11 +9,11 @@ import (
 )
 
 type GinHandler struct {
-	UseCase tag.TaggingUseCase
+	UseCase tag.UseCase
 }
 
 func (h *GinHandler) Routes(router *gin.Engine, useCase interface{}) {
-	h.UseCase = useCase.(tag.TaggingUseCase)
+	h.UseCase = useCase.(tag.UseCase)
 
 	tagRouter := router.Group("/tag")
 	{
@@ -32,7 +32,7 @@ func (h *GinHandler) add(c *gin.Context) {
 	}
 
 	err = h.UseCase.Create(l)
-
+	fmt.Printf("ddddd %T", err)
 	if err != nil {
 		helper.ErrHandler(err, c)
 		return

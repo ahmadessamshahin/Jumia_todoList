@@ -1,16 +1,13 @@
 package repo
 
 import (
+	"Jumia_todoList/config/constant"
 	"Jumia_todoList/config/database"
 	"Jumia_todoList/config/logging"
 	"Jumia_todoList/entity"
-	"Jumia_todoList/usecase/list"
-	"Jumia_todoList/usecase/record"
-	"Jumia_todoList/usecase/tag"
-
-	listingRepo "Jumia_todoList/repository/list"
-	recordingRepo "Jumia_todoList/repository/record"
-	taggingRepo "Jumia_todoList/repository/tag"
+	listRepo "Jumia_todoList/repository/list"
+	tagRepo "Jumia_todoList/repository/tag"
+	taskRepo "Jumia_todoList/repository/task"
 
 	"fmt"
 	"github.com/rs/zerolog"
@@ -27,13 +24,13 @@ func init() {
 	fmt.Println("START LOADING REPOSITORY ....")
 
 	RepositoryBuilder = NewDefaultRepository(logging.Log, database.Connect()).
-		Use(list.ListingName, &listingRepo.ListingInstance{}).
-		Use(record.RecordingName, &recordingRepo.RecordingInstance{}).
-		Use(tag.TaggingName, &taggingRepo.TaggingInstance{})
+		Use(constant.ListInjectionName, &listRepo.Instance{}).
+		Use(constant.TaskInjectionName, &taskRepo.Instance{}).
+		Use(constant.TagInjectionName, &tagRepo.Instance{})
 
 	fmt.Println("MIGRATING ....")
 
-	database.Migrate(RepositoryBuilder.ORM, &entity.List{}, &entity.Record{}, &entity.Tag{})
+	database.Migrate(RepositoryBuilder.ORM, &entity.List{}, &entity.Task{}, &entity.Tag{})
 
 	fmt.Println("FINISH MIGRATING ....")
 

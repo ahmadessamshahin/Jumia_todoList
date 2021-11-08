@@ -6,20 +6,18 @@ import (
 	"Jumia_todoList/usecase/list"
 	"fmt"
 	"github.com/gin-gonic/gin"
-	"strconv"
 )
 
 type GinHandler struct {
-	UseCase list.ListingUseCase
+	UseCase list.UseCase
 }
 
 func (h *GinHandler) Routes(router *gin.Engine, useCase interface{}) {
 
-	h.UseCase = useCase.(list.ListingUseCase)
+	h.UseCase = useCase.(list.UseCase)
 
 	listRouter := router.Group("/list")
 	{
-		listRouter.GET("/", h.get)
 		listRouter.POST("/", h.add)
 		listRouter.PATCH("/", h.edit)
 		listRouter.DELETE("/", h.remove)
@@ -87,40 +85,17 @@ func (h *GinHandler) remove(c *gin.Context) {
 	c.JSON(200, res)
 }
 
-func (h *GinHandler) get(c *gin.Context) {
-	id, ok := c.GetQuery("id")
-	if !ok {
-		helper.ErrHandler(model.ErrInvalidInput, c)
-		return
-	}
-	i, err := strconv.Atoi(id)
-
-	if err != nil {
-		helper.ErrHandler(model.ErrInvalidInput, c)
-		return
-	}
-
-	list, err := h.UseCase.Get(i)
-
-	if err != nil {
-		helper.ErrHandler(err, c)
-		return
-	}
-
-	var o model.ListOutput
-	err = helper.Cast(list, &o)
-
-	if err != nil {
-		helper.ErrHandler(err, c)
-		return
-	}
-
-	res := model.GETListOutput{Data: o}
-	c.JSON(200, res)
-}
-
-//TODO
 func (h *GinHandler) getAllList(c *gin.Context) {
-	fmt.Println("in")
-	c.JSON(201, nil)
+	i := validateGetAllInput(c)
+	if i == nil {
+		return
+	}
+
+	lists := h.UseCase.GetAllLists(*i)
+	fmt.Println(lists)
+
+	res := model.GetAllListOutput{Message: fmt.Sprintf("All list limit: %d, Offset: %d", i.Limit, i.Offset),
+		Data: lists}
+
+	c.JSON(201, res)
 }

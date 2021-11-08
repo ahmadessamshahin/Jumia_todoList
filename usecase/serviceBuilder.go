@@ -7,19 +7,21 @@ import (
 )
 
 type DefaultService struct {
-	Logger         *zerolog.Logger
-	serviceMethods map[string]Service
+	RepositoryBuilder repo.DefaultRepository
+	Logger            *zerolog.Logger
+	serviceMethods    map[string]Service
 }
 
-func NewDefaultService(Logger *zerolog.Logger) DefaultService {
+func NewDefaultService(Logger *zerolog.Logger, repositoryBuilder repo.DefaultRepository) DefaultService {
 	return DefaultService{
-		Logger:         Logger,
-		serviceMethods: make(map[string]Service),
+		RepositoryBuilder: repositoryBuilder,
+		Logger:            Logger,
+		serviceMethods:    make(map[string]Service),
 	}
 }
 
 func (s DefaultService) Use(method string, factory Service) DefaultService {
-	factory.Load(repo.RepositoryBuilder.Resolve(method), s.Logger)
+	factory.Load(s.RepositoryBuilder.Resolve(method), s.Logger)
 	s.serviceMethods[method] = factory
 	return s
 }

@@ -1,38 +1,41 @@
 package handler
 
 import (
+	"Jumia_todoList/usecase"
 	"github.com/gin-gonic/gin"
 	"github.com/rs/zerolog"
 )
 
 type Matcher struct {
 	RoutingGroups RoutingGroup
-	UseCases      interface{}
+	Method        string
 }
 
 type DefaultHandler struct {
-	Logger  *zerolog.Logger
-	Router  *gin.Engine
-	Matcher []Matcher
+	ServiceBuilder usecase.DefaultService
+	Logger         *zerolog.Logger
+	Router         *gin.Engine
+	Matcher        []Matcher
 }
 
-func NewDefaultHandler(Logger *zerolog.Logger) *DefaultHandler {
+func NewDefaultHandler(Logger *zerolog.Logger, serviceBuilder usecase.DefaultService) *DefaultHandler {
 	return &DefaultHandler{
-		Logger:  Logger,
-		Router:  gin.Default(),
-		Matcher: make([]Matcher, 0),
+		ServiceBuilder: serviceBuilder,
+		Logger:         Logger,
+		Router:         gin.Default(),
+		Matcher:        make([]Matcher, 0),
 	}
 }
 
-func (s *DefaultHandler) Use(gp RoutingGroup, useCase interface{}) *DefaultHandler {
-	newMatcher := Matcher{RoutingGroups: gp, UseCases: useCase}
+func (s *DefaultHandler) Use(method string, gp RoutingGroup) *DefaultHandler {
+	newMatcher := Matcher{RoutingGroups: gp, Method: method}
 	s.Matcher = append(s.Matcher, newMatcher)
 	return s
 }
 
 func (s DefaultHandler) Serve() {
-	
+
 	for _, m := range s.Matcher {
-		m.RoutingGroups.Routes(s.Router, m.UseCases)
+		m.RoutingGroups.Routes(s.Router, s.ServiceBuilder.Resolve(m.Method))
 	}
 }

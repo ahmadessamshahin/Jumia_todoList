@@ -2,7 +2,7 @@ package tag
 
 import "Jumia_todoList/entity"
 
-type TaggingRepository interface {
-	Create() *entity.Tag
-	Delete() error
+type Repository interface {
+	Create(*entity.Tag) error
+	Delete(int) error
 }

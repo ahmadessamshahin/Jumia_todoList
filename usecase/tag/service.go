@@ -2,20 +2,27 @@ package tag
 
 import (
 	"Jumia_todoList/api/model"
+	"Jumia_todoList/entity"
+	"Jumia_todoList/pkg"
 	"github.com/rs/zerolog"
 )
 
-const TaggingName string = "TAG"
-
-type TaggingService struct {
-	Repo   TaggingRepository
+type Service struct {
+	Repo   Repository
 	Logger *zerolog.Logger
 }
 
-func (l *TaggingService) Load(repository interface{}, logger *zerolog.Logger) {
-	l.Repo = repository.(TaggingRepository)
+func (l *Service) Load(repository interface{}, logger *zerolog.Logger) {
+	l.Repo = repository.(Repository)
 	l.Logger = logger
 }
 
-func (l *TaggingService) Create(model.TagCreateInput) error { return nil }
-func (l *TaggingService) Delete(model.TagRemoveInput) error { return nil }
+func (l *Service) Create(i model.TagCreateInput) error {
+	var o entity.Tag
+	pkg.Cast(i, &o)
+	return l.Repo.Create(&o)
+}
+func (l *Service) Delete(i model.TagRemoveInput) error {
+	return l.Repo.Delete(i.TagId)
+
+}
