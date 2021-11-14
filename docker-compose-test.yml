@@ -6,17 +6,13 @@ services:
     ports:
       - "3000:3000"
     depends_on:
-      - db
-  db:
-    container_name: db
+      - db_test
+  db_test:
+    container_name: db_test
     image: postgres
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=123456
-      - POSTGRES_DB=jumia
-    volumes:
-      - postgres:/data/postgres
+      - POSTGRES_DB=jumia_test
     ports:
       - "5432:5432"
-volumes:
-  postgres:
