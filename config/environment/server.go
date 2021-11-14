@@ -2,7 +2,8 @@ package env
 
 import (
 	"fmt"
-	"os"
+
+	"github.com/spf13/viper"
 )
 
 var ServerEnv server
@@ -19,7 +20,7 @@ func (s server) must() error {
 }
 
 func (s *server) load() {
-	s.Port = os.Getenv("APP_PORT")
+	s.Port = viper.Get("APP_PORT").(string)
 }
 
 func (s server) export() {
