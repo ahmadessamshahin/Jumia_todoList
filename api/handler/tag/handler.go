@@ -5,6 +5,7 @@ import (
 	"Jumia_todoList/api/model"
 	"Jumia_todoList/usecase/tag"
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -31,15 +32,14 @@ func (h *GinHandler) add(c *gin.Context) {
 		return
 	}
 
-	err = h.UseCase.Create(l)
-	fmt.Printf("ddddd %T", err)
+	id, err := h.UseCase.Create(l)
 	if err != nil {
 		helper.ErrHandler(err, c)
 		return
 	}
 
-	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("Tags created successfully")}
-	c.JSON(204, res)
+	res := model.TagCreateOutput{Message: "Success", Data: model.TagID{ID: id}}
+	c.JSON(201, res)
 }
 
 func (h *GinHandler) remove(c *gin.Context) {

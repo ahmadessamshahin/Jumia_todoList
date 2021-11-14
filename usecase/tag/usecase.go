@@ -5,6 +5,6 @@ import (
 )
 
 type UseCase interface {
-	Create(model.TagCreateInput) error
+	Create(model.TagCreateInput) (int, error)
 	Delete(model.TagRemoveInput) error
 }

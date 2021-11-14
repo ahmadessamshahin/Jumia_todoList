@@ -6,7 +6,7 @@ import (
 )
 
 type UseCase interface {
-	Create(model.TaskCreateInput) error
+	Create(model.TaskCreateInput) (int, error)
 	Update(model.TaskUpdateInput) error
 	Delete(model.TaskRemoveInput) error
 	Filter(input model.TaskFilterInput) ([]entity.Task, error)

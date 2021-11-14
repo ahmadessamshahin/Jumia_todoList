@@ -6,6 +6,7 @@ import (
 	"Jumia_todoList/api/model"
 	"Jumia_todoList/entity"
 	"Jumia_todoList/pkg"
+
 	"github.com/rs/zerolog"
 )
 
@@ -19,7 +20,7 @@ func (l *Service) Load(repository interface{}, logger *zerolog.Logger) {
 	l.Logger = logger
 }
 
-func (l *Service) Create(i model.ListCreateInput) error {
+func (l *Service) Create(i model.ListCreateInput) (int, error) {
 	var o entity.List
 	pkg.Cast(i, &o)
 	return l.Repo.Create(&o)

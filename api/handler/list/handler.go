@@ -5,6 +5,7 @@ import (
 	"Jumia_todoList/api/model"
 	"Jumia_todoList/usecase/list"
 	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
 )
@@ -35,15 +36,15 @@ func (h *GinHandler) add(c *gin.Context) {
 		return
 	}
 
-	err = h.UseCase.Create(l)
+	id, err := h.UseCase.Create(l)
 
 	if err != nil {
 		helper.ErrHandler(err, c)
 		return
 	}
 
-	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("List %s created successfully", l.Name)}
-	c.JSON(204, res)
+	res := model.ListCreateOutput{Message: "success", Data: model.ListID{ID: id}}
+	c.JSON(201, res)
 }
 
 func (h *GinHandler) edit(c *gin.Context) {

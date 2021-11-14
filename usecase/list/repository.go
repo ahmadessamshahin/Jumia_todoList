@@ -5,7 +5,7 @@ import (
 )
 
 type Repository interface {
-	Create(*entity.List) error
+	Create(*entity.List) (int, error)
 	Update(*entity.List, int) error
 	Delete(int) error
 	Get(int) (*entity.List, error)

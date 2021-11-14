@@ -5,9 +5,10 @@ import (
 	"Jumia_todoList/api/model"
 	"Jumia_todoList/usecase/task"
 	"fmt"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
-	"strconv"
 )
 
 type GinHandler struct {
@@ -36,15 +37,15 @@ func (h *GinHandler) add(c *gin.Context) {
 		return
 	}
 
-	err = h.UseCase.Create(l)
+	id, err := h.UseCase.Create(l)
 
 	if err != nil {
 		helper.ErrHandler(err, c)
 		return
 	}
 
-	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("Task %s created successfully", l.Title)}
-	c.JSON(204, res)
+	res := model.TaskCreateOutput{Message: "success", Data: model.TaskID{ID: id}}
+	c.JSON(201, res)
 }
 
 func (h *GinHandler) edit(c *gin.Context) {

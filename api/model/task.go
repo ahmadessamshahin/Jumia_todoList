@@ -20,6 +20,15 @@ type TaskCreateInput struct {
 	Tags        []string `json:"tags"`
 }
 
+type TaskID struct {
+	ID int `json:"id"`
+}
+
+type TaskCreateOutput struct {
+	Message string `json:"message"`
+	Data    TaskID `json:"data"`
+}
+
 type TaskUpdateInput struct {
 	TaskID      uint   `json:"task_id"`
 	ListID      uint   `json:"list_id"`

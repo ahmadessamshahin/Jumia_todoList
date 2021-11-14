@@ -8,10 +8,12 @@ type ListOutput struct {
 type ListCreateInput struct {
 	Name string `json:"name"`
 }
-
+type ListID struct {
+	ID int `json:"id"`
+}
 type ListCreateOutput struct {
-	Message string     `json:"message"`
-	Data    ListOutput `json:"data"`
+	Message string `json:"message"`
+	Data    ListID `json:"data"`
 }
 
 type ListUpdateInput struct {

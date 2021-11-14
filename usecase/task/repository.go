@@ -5,7 +5,7 @@ import (
 )
 
 type Repository interface {
-	Create(*entity.Task, []string) error
+	Create(*entity.Task, []string) (int, error)
 	Update(*entity.Task, uint) error
 	Delete(int) error
 	FilterList(int, []string) ([]entity.Task, error)

@@ -2,6 +2,7 @@ package tag
 
 import (
 	"Jumia_todoList/entity"
+
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
 )
@@ -16,8 +17,9 @@ func (l *Instance) Load(logger *zerolog.Logger, orm *gorm.DB) {
 	l.Logger = logger
 }
 
-func (l *Instance) Create(i *entity.Tag) error {
-	return l.ORM.Create(i).Error
+func (l *Instance) Create(i *entity.Tag) (int, error) {
+	err := l.ORM.Save(i).Error
+	return int(i.ID), err
 }
 
 func (l *Instance) Delete(id int) error {

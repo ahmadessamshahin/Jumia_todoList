@@ -18,14 +18,15 @@ func (l *Instance) Load(logger *zerolog.Logger, orm *gorm.DB) {
 	l.Logger = logger
 }
 
-func (l *Instance) Create(i *entity.Task, str []string) error {
+func (l *Instance) Create(i *entity.Task, str []string) (int, error) {
 	tags := make([]entity.Tag, 0)
 
 	for _, v := range str {
 		tags = append(tags, entity.Tag{Name: v})
 	}
 	i.Tags = tags
-	return l.ORM.Create(i).Error
+	err := l.ORM.Save(i).Error
+	return int(i.ID), err
 }
 
 func (l *Instance) Update(i *entity.Task, id uint) error {

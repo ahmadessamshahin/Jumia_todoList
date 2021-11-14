@@ -3,6 +3,7 @@ package list
 import (
 	"Jumia_todoList/entity"
 	"fmt"
+
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
 )
@@ -17,8 +18,9 @@ func (l *Instance) Load(logger *zerolog.Logger, orm *gorm.DB) {
 	l.Logger = logger
 }
 
-func (l *Instance) Create(i *entity.List) error {
-	return l.ORM.Create(i).Error
+func (l *Instance) Create(i *entity.List) (int, error) {
+	err := l.ORM.Save(i).Error
+	return int(i.ID), err
 }
 
 func (l *Instance) Update(i *entity.List, id int) error {

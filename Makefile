@@ -1,5 +1,5 @@
 # we will put our integration testing in this path
-INTEGRATION_TEST_PATH?=./it
+INTEGRATION_TEST_PATH?=./test
 
 ENV_LOCAL=\
 	APP_DB_USERNAME=postgres\n\
