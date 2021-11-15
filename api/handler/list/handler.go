@@ -106,5 +106,5 @@ func (h *GinHandler) getAllList(c *gin.Context) {
 	res := model.GetAllListOutput{Message: fmt.Sprintf("All list limit: %d, Offset: %d", i.Limit, i.Offset),
 		Data: o}
 
-	c.JSON(201, res)
+	c.JSON(200, res)
 }

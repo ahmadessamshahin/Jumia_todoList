@@ -42,8 +42,7 @@ docker.stop.test:
 # INTEGRATION_TEST_SUITE_PATH is used for run specific test in Golang, if it's not specified
 # it will run all tests under ./it directory
 test.integration:
-	$(ENV_LOCAL_TEST) \
-	go test -tags=integration $(INTEGRATION_TEST_PATH) -count=1 -run=$(INTEGRATION_TEST_SUITE_PATH)
+	go test -tags=integration $(INTEGRATION_TEST_PATH) 
 
 # this command will trigger integration test with verbose mode
 test.integration.debug:
