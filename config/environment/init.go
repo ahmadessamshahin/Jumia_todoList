@@ -2,6 +2,7 @@ package env
 
 import (
 	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -13,14 +14,21 @@ type Environment interface {
 
 func init() {
 	fmt.Println("START LOADING CONFIG ....")
-	config()
-	load([]Environment{&server{}, &database{}})
+	if ok := config(); ok {
+		load([]Environment{&server{}, &Database{}})
+	}
 	fmt.Println("FINISH LOADING CONFIG 🚀🚀")
 }
 
-func config() {
+func config() bool {
 	viper.SetConfigFile(".env")
 	viper.ReadInConfig()
+	err := viper.ReadInConfig()
+	if err != nil {
+		fmt.Println(" 💀💀💀 fatal error config file: ", err)
+		return false
+	}
+	return true
 }
 
 func load(envs []Environment) {

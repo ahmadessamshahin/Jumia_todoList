@@ -1,6 +1,3 @@
-# we will put our integration testing in this path
-INTEGRATION_TEST_PATH?=./test
-
 ENV_LOCAL=\
 	APP_DB_USERNAME=postgres\n\
 	APP_DB_PASSWORD=123456\n\
@@ -42,9 +39,8 @@ docker.stop.test:
 # INTEGRATION_TEST_SUITE_PATH is used for run specific test in Golang, if it's not specified
 # it will run all tests under ./it directory
 test.integration:
-	go test -tags=integration $(INTEGRATION_TEST_PATH) 
+	go test ./...
 
 # this command will trigger integration test with verbose mode
 test.integration.debug:
-	$(ENV_LOCAL_TEST) \
-	go test -tags=integration $(INTEGRATION_TEST_PATH) -count=1 -v -run=$(INTEGRATION_TEST_SUITE_PATH)
+	$(ENV_LOCAL_TEST)go test ./...  -count=1 -v   -run=^$(testFunc) 

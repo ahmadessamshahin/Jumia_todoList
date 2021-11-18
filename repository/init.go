@@ -3,6 +3,7 @@ package repo
 import (
 	"Jumia_todoList/config/constant"
 	"Jumia_todoList/config/database"
+	env "Jumia_todoList/config/environment"
 	"Jumia_todoList/config/logging"
 	"Jumia_todoList/entity"
 	listRepo "Jumia_todoList/repository/list"
@@ -10,6 +11,7 @@ import (
 	taskRepo "Jumia_todoList/repository/task"
 
 	"fmt"
+
 	"github.com/rs/zerolog"
 	"gorm.io/gorm"
 )
@@ -23,7 +25,7 @@ type Repository interface {
 func init() {
 	fmt.Println("START LOADING REPOSITORY ....")
 
-	RepositoryBuilder = NewDefaultRepository(logging.Log, database.Connect()).
+	RepositoryBuilder = NewDefaultRepository(logging.Log, database.Connect(env.DatabaseEnv)).
 		Use(constant.ListInjectionName, &listRepo.Instance{}).
 		Use(constant.TaskInjectionName, &taskRepo.Instance{}).
 		Use(constant.TagInjectionName, &tagRepo.Instance{})

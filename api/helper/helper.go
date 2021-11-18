@@ -3,8 +3,9 @@ package helper
 import (
 	"Jumia_todoList/api/model"
 	"encoding/json"
-	"github.com/gin-gonic/gin"
 	"io/ioutil"
+
+	"github.com/gin-gonic/gin"
 )
 
 func Unmarshal(c *gin.Context, t interface{}) error {
@@ -19,10 +20,9 @@ func Unmarshal(c *gin.Context, t interface{}) error {
 
 func ErrHandler(err error, c *gin.Context) {
 	switch err {
-	
 	case model.ErrInvalidInput:
 		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 	default:
-		c.AbortWithStatusJSON(500, gin.H{"error": "internal server error"})
+		c.AbortWithStatusJSON(400, gin.H{"error": err.Error()})
 	}
 }

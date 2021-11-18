@@ -32,13 +32,13 @@ func (h *GinHandler) add(c *gin.Context) {
 		return
 	}
 
-	id, err := h.UseCase.Create(l)
+	_, err = h.UseCase.Create(l)
 	if err != nil {
 		helper.ErrHandler(err, c)
 		return
 	}
 
-	res := model.TagCreateOutput{Message: "Success", Data: model.TagID{ID: id}}
+	res := model.EmptySuccessfulOutput{Message: "Success"}
 	c.JSON(201, res)
 }
 

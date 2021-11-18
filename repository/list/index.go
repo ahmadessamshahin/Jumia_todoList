@@ -43,3 +43,8 @@ func (l *Instance) GetAllLists(limit, offset int) (lists []entity.List, err erro
 		Find(&lists).Error
 	return
 }
+
+func (l *Instance) ClearTable() {
+	l.ORM.Exec("DELETE FROM lists")
+	l.ORM.Exec("ALTER SEQUENCE lists_id_seq RESTART WITH 1")
+}

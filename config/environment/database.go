@@ -6,9 +6,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-var DatabaseEnv database
+var DatabaseEnv Database
 
-type database struct {
+type Database struct {
 	UserName string
 	Password string
 	Name     string
@@ -16,7 +16,7 @@ type database struct {
 	Host     string
 }
 
-func (d database) must() error {
+func (d Database) must() error {
 
 	if d.Host == "" || d.Port == "" || d.Name == "" || d.UserName == "" || d.Password == "" {
 		panic(fmt.Errorf("MISSING DATABASE CONNECTION ENVIREOMENT"))
@@ -24,7 +24,7 @@ func (d database) must() error {
 	return nil
 }
 
-func (d *database) load() {
+func (d *Database) load() {
 	d.UserName = viper.Get("APP_DB_USERNAME").(string)
 	d.Password = viper.Get("APP_DB_PASSWORD").(string)
 	d.Name = viper.Get("APP_DB_NAME").(string)
@@ -32,6 +32,6 @@ func (d *database) load() {
 	d.Host = viper.Get("APP_DB_HOST").(string)
 }
 
-func (d database) export() {
+func (d Database) export() {
 	DatabaseEnv = d
 }

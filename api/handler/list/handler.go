@@ -4,7 +4,6 @@ import (
 	"Jumia_todoList/api/helper"
 	"Jumia_todoList/api/model"
 	"Jumia_todoList/usecase/list"
-	"fmt"
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/copier"
@@ -32,7 +31,7 @@ func (h *GinHandler) add(c *gin.Context) {
 	err := helper.Unmarshal(c, &l)
 
 	if err != nil {
-		helper.ErrHandler(err, c)
+		helper.ErrHandler(model.ErrInvalidInput, c)
 		return
 	}
 
@@ -52,7 +51,7 @@ func (h *GinHandler) edit(c *gin.Context) {
 	err := helper.Unmarshal(c, &l)
 
 	if err != nil {
-		helper.ErrHandler(err, c)
+		helper.ErrHandler(model.ErrInvalidInput, c)
 		return
 	}
 
@@ -63,7 +62,7 @@ func (h *GinHandler) edit(c *gin.Context) {
 		return
 	}
 
-	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("List %s updated successfully", l.Name)}
+	res := model.EmptySuccessfulOutput{Message: "success"}
 	c.JSON(200, res)
 }
 
@@ -83,7 +82,7 @@ func (h *GinHandler) remove(c *gin.Context) {
 		return
 	}
 
-	res := model.EmptySuccessfulOutput{Message: fmt.Sprintf("List %d deleted successfully", l.ID)}
+	res := model.EmptySuccessfulOutput{Message: "success"}
 	c.JSON(200, res)
 }
 
@@ -103,8 +102,7 @@ func (h *GinHandler) getAllList(c *gin.Context) {
 		return
 	}
 
-	res := model.GetAllListOutput{Message: fmt.Sprintf("All list limit: %d, Offset: %d", i.Limit, i.Offset),
-		Data: o}
+	res := model.GetAllListOutput{Message: "success", Data: o}
 
 	c.JSON(200, res)
 }
